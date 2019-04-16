@@ -22,29 +22,29 @@ The Critic Neural networks are a 3 layer feed forward network with Relu activati
 Given that for this particular problem the input are not the raw pixels from the enviroment, rather the 24 states per agent that contain the position and velocity of the ball and racket, there was not need for the implementation of a convolutional neural network.
 
 ### The Hyperparameters
-Buffer Size = 300000
-Batch Size = 256
-Gamma = 0.99
-Tau = 0.001
-Actor Learning Rate = 0.0001
-Critic Learning Rate = 0.001
+- Buffer Size = 300000
+- Batch Size = 256
+- Gamma = 0.99
+- Tau = 0.001
+- Actor Learning Rate = 0.0001
+- Critic Learning Rate = 0.001
 
 The Actor and Critic networks were updated through the learning process, every 20 time steps if the memory buffer had at least the same ammount of experiences as the minimum batch size. Every 20 steps a 15 train loop was executed to maximize learning.
 
-Number of Episodes = 1000
-Max number of Steps per Episode = 1000
+- Number of Episodes = 1000
+- Max number of Steps per Episode = 1000
 
 Also the Ornstein-Uhlenbeck process which adds noise to the actions selected by the Actor Nework, a normal distributions was used instead of a uniform distribution. OUnoise was applied with an amplitud scale decreasing over time.
 
-starting_noise_amplitud = 1
-noise_reduction_per_step = 0.9995
-minimum_noise_amplitud = 0.1
+- starting_noise_amplitud = 1
+- noise_reduction_per_step = 0.9995
+- minimum_noise_amplitud = 0.1
 
 This was done to maximize exploration at the early stages of experiences and learning, but at the end we would just have a minimal ammount of exploration.
 
 ### Plot of Rewards per Episode
 ![Image of Reward PLot](/training_results/reward_plot_maddpg.png)
-![Image of Training Process](/training_results/training_process_maddpg.png)
+![Image of Training Process](/training_results/trainin_process_maddpg.png)
 
 The Enviroment was solved around episode 1400
 
