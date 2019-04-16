@@ -56,8 +56,8 @@ class MADDPG():
         if self.t_step < NOISE_START:
             noise_amplitud = 0
         else:
-            noise_amplitud = self.noise_amplitud
-            self.noise_amplitud = max(self.noise_amplitud*self.noise_reduction, 0.1)
+        noise_amplitud = self.noise_amplitud
+        self.noise_amplitud = max(self.noise_amplitud*self.noise_reduction, 0.1)
             
         actions = np.array([agent.act(state, noise_amplitud) for agent, state in zip(self.maddpg_agent, states)])
             
@@ -89,8 +89,6 @@ class MADDPG():
         # ---------------------------- update critic ---------------------------- #
         # Get predicted next-state actions and Q values from target models
         target_actions_full = self.target_actors(next_states)
-        
-#         next_states_full = torch.reshape(next_states,(BATCH_SIZE,self.num_agents*self.state_size))
         next_states_full = next_states.view(-1,self.num_agents*self.state_size)
 #         target_critic_input = torch.cat((next_states_full,target_actions_full), dim = 1)
         
@@ -100,11 +98,8 @@ class MADDPG():
         Q_targets = rewards[:,agent_number].view(-1,1) + (gamma * Q_targets_next * (1 - dones[:,agent_number].view(-1,1)))
 
         # Compute critic loss
-#         actions = torch.reshape(actions,(BATCH_SIZE,self.action_size*self.num_agents))
         actions_full = actions.view(-1,self.action_size*self.num_agents)
-#         states_batch = torch.reshape(states,(BATCH_SIZE,self.num_agents*self.state_size))
         states_full = states.view(-1,self.num_agents*self.state_size)
-    
 #         critic_input = torch.cat((states_full,actions_full), dim = 1)
         
         Q_expected = agent.critic(states_full,actions_full)
@@ -132,8 +127,8 @@ class MADDPG():
     def update_targets(self):
         """soft update target networks"""
         for agent in self.maddpg_agent:
-            self.soft_update(agent.actor_target, agent.actor, TAU)
-            self.soft_update(agent.critic_target, agent.critic, TAU)
+            self.soft_update(agent.actor, agent.actor_target, TAU)
+            self.soft_update(agent.critic, agent.critic_target, TAU)
             
     def soft_update(self, local_model, target_model, tau):
         """Soft update model parameters.
