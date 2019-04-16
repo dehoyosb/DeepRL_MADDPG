@@ -10,7 +10,7 @@ def hidden_init(layer):
     return (-lim, lim)
 
 class Actor(nn.Module):
-    def __init__(self, state_size, action_size, seed = 0, fc1_units=512, fc2_units=256):
+    def __init__(self, state_size, action_size, seed = 0, fc1_units=64, fc2_units=64):
         super(Actor, self).__init__()
         
         self.seed = torch.manual_seed(seed)
@@ -33,7 +33,7 @@ class Actor(nn.Module):
         return x
     
 class Critic(nn.Module):
-    def __init__(self, state_size_full, action_size_full, seed = 0, fc1_units=512, fc2_units=256):
+    def __init__(self, state_size_full, action_size_full, seed = 0, fc1_units=64, fc2_units=64):
         super(Critic, self).__init__()
         
         self.seed = torch.manual_seed(seed)
