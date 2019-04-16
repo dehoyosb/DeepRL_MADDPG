@@ -56,8 +56,8 @@ class MADDPG():
         if self.t_step < NOISE_START:
             noise_amplitud = 0
         else:
-        noise_amplitud = self.noise_amplitud
-        self.noise_amplitud = max(self.noise_amplitud*self.noise_reduction, 0.1)
+            noise_amplitud = self.noise_amplitud
+            self.noise_amplitud = max(self.noise_amplitud*self.noise_reduction, 0.1)
             
         actions = np.array([agent.act(state, noise_amplitud) for agent, state in zip(self.maddpg_agent, states)])
             
